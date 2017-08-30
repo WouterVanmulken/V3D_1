@@ -49,7 +49,7 @@ def createCube(size):
 	viz.vertex(x,y,z) 
 	viz.vertex(0,y,z)  
 
-	viz.endLayer()
+	return viz.endLayer()
 
 #createCube([1,2,3])
 
@@ -90,9 +90,42 @@ def createCylinder(pos,r,height):
 				z1 = cz + r * math.sin(degree)
 				
 				viz.vertex(x1,height,z1)
+	return viz.endLayer()
+
+
+#cylinder = createCylinder([2,2],0.5,.4)
+
+def calculateR(x1,y1,x2,y2):
+	x = abs( x1 - x2)
+	y = abs( y1 - y2)
+	
+	return math.sqrt(math.pow(x,2) + math.pow(y,2))
+
+def createSphere():
+
+	r=1
+	middle = [0,0];
+	xMiddle = middle[0]
+	yMiddle = middle[1]
+	
+	viz.startLayer(viz.QUADS)
+	viz.vertexColor(1,0,0)
+	
+	for outerDegree in range(0,360):
+		x1 = r * math.cos(outerDegree)
+		y1 = r * math.sin(outerDegree)
+		viz.vertex(x1,y1,0)
+		
+		for innerDegree in range(0,360):
+			rInner = calculateR(xMiddle,yMiddle,x1,y1)
+			#calculate the new r
+			#calculate the new x and y for this r
+			
+			z2 = rInner * math.cos(innerDegree)
+			y2 = rInner * math.sin(innerDegree)
+			
+			viz.vertex(x1,y2,z2)
+			
 	viz.endLayer()
-
-
-createCylinder([2,2],0.5,.4)
-
+createSphere()
 viz.go()
