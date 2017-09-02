@@ -96,7 +96,8 @@ def createCylinder(pos,r,height):
 #cylinder = createCylinder([2,2],0.5,.4)
 
 def calculateR(x1,y1,x2,y2):
-	x = abs( x1 - x2)
+	diffX = x1 - x2
+	x = abs(diffX)
 	y = abs( y1 - y2)
 	
 	return math.sqrt(math.pow(x,2) + math.pow(y,2))
@@ -108,7 +109,7 @@ def createSphere():
 	xMiddle = middle[0]
 	yMiddle = middle[1]
 	
-	viz.startLayer(viz.QUADS)
+	viz.startLayer(viz.POLYGON)
 	viz.vertexColor(1,0,0)
 	
 	for outerDegree in range(0,360):
@@ -118,13 +119,14 @@ def createSphere():
 		
 		for innerDegree in range(0,360):
 			rInner = calculateR(xMiddle,yMiddle,x1,y1)
+			
 			#calculate the new r
 			#calculate the new x and y for this r
-			
+			rInner = x1
 			z2 = rInner * math.cos(innerDegree)
-			y2 = rInner * math.sin(innerDegree)
+			x2 = rInner * math.sin(innerDegree)
 			
-			viz.vertex(x1,y2,z2)
+			viz.vertex(x2,y1,z2)
 			
 	viz.endLayer()
 createSphere()
