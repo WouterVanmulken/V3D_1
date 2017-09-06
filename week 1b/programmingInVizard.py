@@ -92,8 +92,8 @@ for i in range(0,5):
 
 textScreen = viz.addText(text.name,viz.SCREEN)
 textScreen.alignment(viz.ALIGN_RIGHT_BOTTOM)
-textScreen.setPosition([0.95,0.05,0])
-
+#textScreen.setPosition([0.95,0.05,0])
+textScreen.setPosition([4,0,0])
 
 #3
 window = viz.addWindow()

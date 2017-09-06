@@ -5,7 +5,7 @@ import math
 viz.setMultiSample(4)
 viz.clearcolor(0.75, 0.75, 0.75)
 piazza = viz.addChild('piazza.osgb')
-def createCube(size):
+def createCube(size, pos):
 	x = size[0]
 	y = size[1]
 	z = size[2]
@@ -49,9 +49,11 @@ def createCube(size):
 	viz.vertex(x,y,z) 
 	viz.vertex(0,y,z)  
 
-	return viz.endLayer()
+	a =  viz.endLayer()
+	a.setPosition(pos[0],pos[1],pos[2])
+	return a
 
-#createCube([1,2,3])
+createCube([1,2,3], [1,1,1])
 
 def createCylinder(pos,r,height):
 	
@@ -93,7 +95,7 @@ def createCylinder(pos,r,height):
 	return viz.endLayer()
 
 
-#cylinder = createCylinder([2,2],0.5,.4)
+cylinder = createCylinder([2,2],0.5,.4)
 
 def calculateR(x1,y1,x2,y2):
 	diffX = x1 - x2
@@ -109,10 +111,10 @@ def createSphere():
 	xMiddle = middle[0]
 	yMiddle = middle[1]
 	
-	viz.startLayer(viz.POLYGON)
+	viz.startLayer(viz.POINTS)
 	viz.vertexColor(1,0,0)
 	
-	for outerDegree in range(0,360):
+	for outerDegree in range(0,180):
 		x1 = r * math.cos(outerDegree)
 		y1 = r * math.sin(outerDegree)
 		viz.vertex(x1,y1,0)

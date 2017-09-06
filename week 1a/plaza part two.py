@@ -6,8 +6,8 @@ import math
 viz.clearcolor(0.75, 0.75, 0.75)
 #vizshape.addAxes()
 viz.setMultiSample(4)
-#piazza = viz.addChild('piazza.osgb')
-#viz.addChild('donut.obj')
+piazza = viz.addChild('piazza.osgb')
+viz.addChild('donut.obj')
 def createCube(position,size):
 	xOffset = position[0]
 	yOffset = position[1]
