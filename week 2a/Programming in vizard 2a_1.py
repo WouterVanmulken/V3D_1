@@ -10,36 +10,43 @@ def createCube(size, pos):
 	viz.MainView.setPosition(0,-.3,-1)
 	viz.startLayer(viz.QUADS)
 	
+	viz.normal(0,-1,0)
 	viz.vertexColor(x,0,0)
 	viz.vertex(0,0,0) 
 	viz.vertex(x,0,0)
 	viz.vertex(x,0,z) 
 	viz.vertex(0,0,z)  
+	
 
+	viz.normal(0,0,-1)
 	viz.vertexColor(0,y,0)
 	viz.vertex(0,0,0) 
 	viz.vertex(0,y,0)
 	viz.vertex(x,y,0) 
 	viz.vertex(x,0,0)
 
+	viz.normal(-1,0,0)
 	viz.vertexColor(0,0,z)
 	viz.vertex(0,0,0) 
 	viz.vertex(0,y,0)
 	viz.vertex(0,y,z) 
 	viz.vertex(0,0,z)  
 
+	viz.normal(0,1,0)
 	viz.vertexColor(0.5,0,0)
 	viz.vertex(x,0,0) 
 	viz.vertex(x,0,z)
 	viz.vertex(x,y,z) 
 	viz.vertex(x,y,0)  
 
+	viz.normal(0,1,0)
 	viz.vertexColor(0,0.5,)
 	viz.vertex(0,y,0)
 	viz.vertex(0,y,z)
 	viz.vertex(x,y,z) 
 	viz.vertex(x,y,0)  
-
+	
+	viz.normal(0,0,1)
 	viz.vertexColor(0,0,.5)
 	viz.vertex(0,0,z)
 	viz.vertex(x,0,z)
@@ -50,9 +57,13 @@ def createCube(size, pos):
 	a.setPosition(pos[0],pos[1],pos[2])
 	return a
 #4
+
 cube = createCube([.25,.25,.25],[4,3,0])
 cube.enable(viz.LIGHTING)
 
+cube2 = createCube([.25,.25,.25],[1,0,0])
+cube2.enable(viz.LIGHTING)
+cube2.setEuler(0,0,0)
 
 #1
 viz.go()
@@ -118,6 +129,14 @@ mainCheck = viz.addCheckbox()
 mainCheck.message('spot light')
 mainCheck.setPosition(.05,.75)
 
+dlightSlider1 = viz.addSlider()
+dlightSlider1.setPosition(0.15,0.7)
+dlightSlider2 = viz.addSlider()
+dlightSlider2.setPosition(0.15,0.65)
+dlightSlider3 = viz.addSlider()
+dlightSlider3.setPosition(0.15,0.6)
+
+
 degree = 0
 def rotateSpotlight(cx,cz):
 	r = 3
@@ -141,6 +160,8 @@ def update():
 	Switch(plight,plightCheck.get())
 	Switch(slight,slightCheck.get())
 	Switch(viz.MainView.getHeadLight(),mainCheck.get())
+	dlight.color(dlightSlider1.get(),dlightSlider2.get(),dlightSlider3.get())
+	
 	rotateSpotlight(shiny.getPosition()[0],shiny.getPosition()[2])
 
 vizact.ontimer(0,update)

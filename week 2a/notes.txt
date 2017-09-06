@@ -1,0 +1,14 @@
+.specular
+.ambient
+.color
+.shininess
+.alpha
+
+enable lighting => mypoints.enable(viz.LIGHTING)
+
+
+MULTIPLE TRANSPARENT OBJECTS SHOULD BE RENDERED FROM FAR TO NEAR
+OR IT WON'T LOOK RIGHT	
+
+viz.BIN_OPAQUE
+viz.BIN_TRANSPARENT
