@@ -11,6 +11,7 @@ sphere1.color(1,0,0)
 sphere1.alpha(.3)
 sphere1.setPosition(0,0,-1)
 sphere1.enable(viz.LIGHTING)
+sphere1.specular(1,1,1)
 
 sphere2 = vizshape.addSphere(2)
 sphere2.color(0,1,0)

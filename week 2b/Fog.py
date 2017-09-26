@@ -2,6 +2,8 @@
 import vizshape
 import vizact
 
+
+
 viz.clearcolor(.5,.5,.5)
 
 viz.MainView.setPosition(2,0,-10)
@@ -18,7 +20,7 @@ sphere3 = vizshape.addSphere(1)
 sphere3.color(0,0,1)
 sphere3.setPosition(5,0,5)
 
-z = [0,10,5]
+z = [0,5,5]
 
 steps = 5
 goingUp = False
@@ -50,7 +52,7 @@ viz.fogcolor(0.5,0.5,0.5)
 
 
 vizact.ontimer(0.02	,changePos)
-vizact.onkeydown('1',viz.fog,1,10)
+vizact.onkeydown('1',viz.fog,1,8)
 vizact.onkeydown('2',viz.fog,.2)
 vizact.onkeydown('3',viz.fog,0)
 
