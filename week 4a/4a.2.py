@@ -33,8 +33,6 @@ shadow.addReceiver(quad2)
 light = vizfx.addDirectionalLight(euler=(0,90,0), color=viz.WHITE)
 
 
-
-
 angle = 0
 speed = .1
 def setPos():
