@@ -4,7 +4,7 @@ import vizshape
 import vizact
 import vizfx
 
-#lab = viz.addChild('lab.osgb')
+lab = viz.addChild('lab.osgb')
 
 sphere1 = vizshape.addSphere()
 sphere1.setPosition(0,1,4)
@@ -22,12 +22,12 @@ SHADOW_AREA = [20,20]
 	
 
 shadow = Shadow.ShadowProjector(size=SHADOW_RES, pos=SHADOW_POS, area=SHADOW_AREA)
-
+shadow.setEuler([0,0,0]);
 shadow.addCaster(sphere1)
 
 shadow.addReceiver(quad1)
 shadow.addReceiver(quad2)
-#shadow.addReceiver(lab)
+shadow.addReceiver(lab)
 
 
 light = vizfx.addDirectionalLight(euler=(0,90,0), color=viz.WHITE)
@@ -43,5 +43,5 @@ def setPos():
 	angle +=speed
 	shadow.setPosition([angle,0,0])
 
-vizact.ontimer(0,setPos)
+#vizact.ontimer(0,setPos)
 viz.go()

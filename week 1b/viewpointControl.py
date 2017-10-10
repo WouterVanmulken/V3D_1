@@ -26,9 +26,9 @@ def updatecar():
 	elif viz.key.isDown(viz.KEY_LEFT):
 		view.setEuler([-TURN_SPEED*viz.elapsed(),0,0],viz.BODY_ORI,viz.REL_PARENT)
 
-	car.setPosition(view.getPosition())
-	car.setEuler(view.getEuler(viz.BODY_ORI))
-	car.setPosition([0.35,-1.2,0.2],viz.REL_LOCAL)
+#	car.setPosition(view.getPosition())
+#	car.setEuler(view.getEuler(viz.BODY_ORI))
+#	car.setPosition([0.35,-1.2,0.2],viz.REL_LOCAL)
 
 vizact.ontimer(0,updatecar)
 
