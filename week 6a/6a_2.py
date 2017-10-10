@@ -35,10 +35,10 @@ viz.mouse(viz.OFF)
 viz.mouse.setVisible(viz.ON)
 
 #create the plane
-quad = vizshape.addQuad(size=[50,50]);
-quad.setEuler(0,90,0)
-quad.emissive(1,1,1)
-quad.collideMesh()
+plane = vizshape.addQuad(size=[50,50]);
+plane.setEuler(0,90,0)
+plane.emissive(1,1,1)
+plane.collideMesh()
 
 # generate random cubes
 for i in range(0,50):
@@ -47,10 +47,12 @@ for i in range(0,50):
 	box.collideBox()
 
 
-quad2 = vizshape.addQuad(size=[50,50]);
-quad2.color(.6,0,0)
-quad2.setPosition(0,0,25)
-quad2.setEuler(0,0,90)
+farPlane = vizshape.addQuad(size=[50,50]);
+farPlane.color(.6,0,0)
+farPlane.setPosition(0,0,25)
+farPlane.setEuler(0,0,90)
+
+#farPlane.alpha(.2)
 
 
 # reset the view
@@ -105,13 +107,17 @@ def mouseUp():
 
 def drawLine(lineScreen, selected):
 	global line
+	
 	if line is not 0:
 		line.remove()
+		
 	viz.startLayer(viz.LINES)  
-	if selected.valid() and selected.id is not quad.id and selected.id is not quad2.id :
+	
+	if selected.valid() and selected.id is not plane.id and selected.id is not farPlane.id :
 		viz.vertexColor(1,0,0)
 	else:
 		viz.vertexColor(0,0,1)
+
 	viz.vertex(lineScreen.begin)
 	viz.vertex(lineScreen.end)		
 	line = viz.endLayer() 
@@ -128,17 +134,11 @@ def pickLine():
 	
 
 	lineScreen = viz.MainWindow.screenToWorld(viz.mouse.getPosition())
-	if line is not 0:
-		line.remove()
 	
 	drawLine(lineScreen,selected)
 	
 	if selected.valid():
-		quad2.setPosition(quad.getPosition()[0],quad.getPosition()[1],selected.getPosition()[2])
-		
-		difference[0] =  selected.getPosition()[0] - viz.MainView.getPosition()[0]
-		difference[1] =  selected.getPosition()[1] - viz.MainView.getPosition()[1]
-		difference[2] =  selected.getPosition()[2] - viz.MainView.getPosition()[2]
+		farPlane.setPosition(plane.getPosition()[0],plane.getPosition()[1],selected.getPosition()[2])
 
 
 
@@ -146,26 +146,23 @@ def update():
 	global mouseDown
 	global selected
 	if mouseDown and selected is not 0:
-			
-		
-		
-		
 		
 		selected2 = viz.pick()
 		# is the far plane
-		if selected2.id is quad2.id:
-			lineScreen = viz.MainWindow.screenToWorld(viz.mouse.getPosition())
-			drawLine(lineScreen,selected2)
-			difference[0] =  lineScreen.end[0]
-			difference[1] =  lineScreen.end[1]		
-				
-		
+#		if selected2.id is farPlane.id:
+#			lineScreen = viz.MainWindow.screenToWorld(viz.mouse.getPosition())
+#			drawLine(lineScreen,selected2)
+#			difference[0] =  lineScreen.end[0]
+#			difference[1] =  lineScreen.end[1]	
+#			difference[2] =  lineScreen.end[2]	
+#			print 'x : ',lineScreen.end[0], ' y : ', lineScreen.end[1], ' z : ', lineScreen.end[2]
 		
 		pos = selected.getPosition()
-		pos[0] = difference[0]
-		pos[1] = viz.MainView.getPosition()[1] + difference[1]
+		pos[0] = viz.MainView.getPosition()[0] +difference[0]
+		pos[1] = viz.MainView.getPosition()[1] +difference[1]
 		pos[2] = viz.MainView.getPosition()[2] + difference[2]
-		selected.setPosition(pos)		
+		selected.setPosition(pos)
+#		print 'x : ',pos[0], ' y : ', pos[1], ' z : ', pos[2]
 		
 
 
@@ -179,6 +176,8 @@ vizact.onkeydown('r',reset)
 
 vizact.ontimer(0,updatePerson)
 vizact.ontimer(0,update)
+
+vizact.onmouseup(viz.MOUSEBUTTON_LEFT,mouseUp)
 
 vizact.onmousedown(viz.MOUSEBUTTON_LEFT, pickLine)
 vizact.onmousedown(viz.MOUSEBUTTON_RIGHT,view.reset, viz.BODY_ORI |viz.HEAD_POS)
