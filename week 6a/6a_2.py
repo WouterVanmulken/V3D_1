@@ -45,12 +45,14 @@ for i in range(0,50):
 	box = vizshape.addBox();
 	box.setPosition(randint(0,50)-25,1,randint(0,50)-25)
 	box.collideBox()
+	
 
 
 farPlane = vizshape.addQuad(size=[50,50]);
 farPlane.color(.6,0,0)
 farPlane.setPosition(0,0,25)
 farPlane.setEuler(0,0,90)
+farPlane.alpha(0)
 
 
 
@@ -100,6 +102,7 @@ def mouseUp():
 	global mouseDown
 	global difference
 	
+	selected.enable(viz.DYNAMICS)
 	selected = 0
 	mouseDown = False
 	difference = [0,0,0]
@@ -137,7 +140,9 @@ def pickLine():
 	drawLine(lineScreen,selected)
 	
 	if selected.valid():
-		farPlane.setPosition(plane.getPosition()[0],plane.getPosition()[1],selected.getPosition()[2])
+		farPlane.setPosition(farPlane.getPosition()[0],farPlane.getPosition()[1],selected.getPosition()[2])
+		selected.disable(viz.DYNAMICS)
+		
 		difference[0] =  selected.getPosition()[0] - viz.MainView.getPosition()[0]
 		difference[1] =  selected.getPosition()[1] - viz.MainView.getPosition()[1] 
 		difference[2] =  selected.getPosition()[2] - viz.MainView.getPosition()[2] 
@@ -149,27 +154,24 @@ def update():
 	global difference
 	if mouseDown and selected is not 0:
 		
-		selected2 = viz.pick()
-		
+		selected2 = viz.pick()		
 		lineScreen = viz.MainWindow.screenToWorld(viz.mouse.getPosition())
+		
 		if selected2.id is farPlane.id:
-			print lineScreen.getEnd()[0]
-			drawLine(lineScreen,selected2)
-			difference[0] =  lineScreen.getEnd()[0]
-			difference[1] =  lineScreen.getEnd()[1]
-#			difference[2] =  lineScreen.end[2]  
-#			print 'x : ',lineScreen.end[0], ' y : ', lineScreen.end[1], ' z : ', lineScreen.end[2]
-		
+			
+			intersection = selected2.intersect(viz.MainView.getPosition(), lineScreen.end);
+			print intersection.point[0]
+			
+			farPlane.setPosition(farPlane.getPosition()[0], farPlane.getPosition()[1], viz.MainView.getPosition()[2]+difference[2])			
+			
 			pos = [0,0,0]
-			pos[0] =  difference[0]
-			pos[1] =  difference[1]
-			pos[2] = viz.MainView.getPosition()[2] +difference[2]
+			pos[0] =  intersection.point[0]
+			pos[1] =  intersection.point[1]
+			pos[2] =  intersection.point[2]			
+			
+
 			selected.setPosition(pos)
-#			print 'x : ',pos[0], ' y : ', pos[1], ' z : ', pos[2]
-		
-
-
- 
+			drawLine(lineScreen,selected2)
 
 
 viz.callback(viz.MOUSE_MOVE_EVENT,mousemove)
